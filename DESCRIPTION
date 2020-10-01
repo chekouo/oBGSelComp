@@ -1,0 +1,13 @@
+Package: oBGSelComp
+Type: Package
+Title: oBGSelComp: overlapping Bayesian Group Selection for Compositional data
+Version: 1.0
+Date: 2020-10-01
+Author: Thierry Chekouo 
+Maintainer: Thierry Chekouo <thierry.chekouotekou@ucalgary.ca>
+Description: The oBGSelComp package implements an MCMC algorithm for a Bayesian hierarchical model for variable selection with a group structure in the context  of correlated multivariate compositional response variables. 
+SystemRequirements: GSL (GNU Scientific Library)
+License: GPL (>= 2.0)
+Imports: sirt, gtools, AUC
+RoxygenNote: 6.1.0
+Encoding: UTF-8
