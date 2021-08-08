@@ -1,10 +1,16 @@
-SimulateData<-function(n=100,betaAbs=1,sig=.1,r2=0.5,propOverl=0,seed=1){
+SimulateData<-function(n=100,betaAbs=1,sig=.1,r2=0.5,propOverl=0,seed=1,K=20,p=200,q=4,nbrpath=4){
   ##See Section 5.2 manuscript
 #library(gtools)
 if (!propOverl%in%c(0,10,50)){
     stop("We should enter for propOverl 0, 10 or 50.")
+}
+  if (p>200){
+    if ( propOverl!=0){
+      print("Warning: When p>200, we only provided the option to generate non-overlap groups")
+    }
+    propOverl=0
   }
-K=20;p=200;q=4;nbrpath=4;
+#K=20;p=200;q=4;nbrpath=4;
 p1=p;
 set.seed(1)
 PathKnow=matrix(0,q,K)
@@ -66,5 +72,5 @@ set.seed(seed)
   for (i in 1:nrow(mRNA)){
     y[i,]=rdirichlet(1,exp(alpha)[i,])
   }
-list(y=y,X=mRNA,Pathway=Path,GamKnown=PathKnow)
+list(y=y,X=mRNA,Pathway=Path,GamKnown=PathKnow,Beta=Beta)
 }

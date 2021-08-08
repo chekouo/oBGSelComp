@@ -17,17 +17,24 @@ a.lambda=hyperlamb[1];b.lambda=hyperlamb[2]
 result <- .C("mainMCMCFunction",q1=as.integer(q),K1=as.integer(K),n1=as.integer(n),p1=as.integer(p),
              outc1=outc1,yinit1=yinit1,X1=X1,path1=as.integer(path1),burninsample1=as.integer(burnin),nbrsample1=as.integer(sample),
              a=as.double(a),b=as.double(b),alpha01=as.double(alpha0),beta01=as.double(beta0),al1=as.double(a.lambda), 
-             bll=as.double(b.lambda),seed1=as.integer(seed),gamMean1=as.vector(rep(0,q*K)),BetaSample1=as.vector(rep(0,q*sample*p)));
+             bll=as.double(b.lambda),seed1=as.integer(seed),gamMean1=as.vector(rep(0,q*K)),
+             BetaSample1=as.vector(rep(0,q*sample*p)),PostPredSample1=as.double(rep(0,n*q*sample)),
+             logpost=as.double(rep(0,sample+burnin)));
 
 #double* a, double* b, double* alpha01, double* beta01
 gamMean=matrix(result$gamMean1,q,K,byrow=T);
-BetaSample=list();
+BetaSample=list();PostPredSample=array(0,c(n,q,sample))
 l1=0;
 for (l in 1:q){
 BetaSample[[l]]=matrix(result$BetaSample1[(1+l1):(sample*p+l1)],sample,p,byrow=T)
 l1=l1+sample*p;
 }
-
-return(list(PostProbGrp=gamMean,BetaSample=BetaSample))
+l2=0;
+for (i in 1:n){
+PostPredSample[i,,]=matrix(result$PostPredSample1[(1+l2):(sample*q+l2)],q,sample,byrow=T)
+l2=l2+sample*q;
+}
+outc=matrix(outc1,n,q,byrow = T)
+return(list(PostProbGrp=gamMean,BetaSample=BetaSample,PostPredSample=PostPredSample,logpost=result$logpost,outcome=outc))
 }
 

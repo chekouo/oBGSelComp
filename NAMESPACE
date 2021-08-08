@@ -9,4 +9,4 @@ import(AUC)
 useDynLib(oBGSelComp)
 export(oBGSelCompAlgo)
 export(SimulateData)
-#export(Simulate)
+

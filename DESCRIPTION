@@ -9,5 +9,5 @@ Description: The oBGSelComp package implements an MCMC algorithm for a Bayesian 
 SystemRequirements: GSL (GNU Scientific Library)
 License: GPL (>= 2.0)
 Imports: sirt, gtools, AUC
-RoxygenNote: 6.1.0
+RoxygenNote: 7.1.1
 Encoding: UTF-8

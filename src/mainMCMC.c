@@ -20,7 +20,10 @@
 //R  CMD SHLIB  mainAlgo.c MCMC.c  utils.c mainfuntion2.c -lgsl -lgslcblas -o PathSel.so
 
 //R CMD SHLIB mainAlgo.c  utils.c mainfuntion2.c -lgsl -lgslcblas -o PathSel.so
-void mainMCMCFunction(int* q1, int* K1,int *n1,int* p1,double * outc1,double * yinit1,double * X1,int * path1,int* burninsample1,int* nbrsample1,double* a, double* b, double* alpha01, double* beta01,double * al1, double* bll,int * seed1, double * gamMean1,double * BetaSample1){
+void mainMCMCFunction(int* q1, int* K1,int *n1,int* p1,double * outc1,double * yinit1,double * X1,int * path1,
+                      int* burninsample1,int* nbrsample1,double* a, double* b, double* alpha01, 
+                      double* beta01,double * al1, double* bll,int * seed1, double * gamMean1,
+                      double * BetaSample1, double *PostPredSample1, double * logpost){
 //printf("Hello World!\n");
 
 
@@ -59,6 +62,13 @@ path[k][j]=(path1[k*p+j]==1);
 double *** BetaSample=malloc(q*sizeof(double **));
 for (l=0;l<q;l++){
 BetaSample[l]=dmatrix(0,nbrsample-1,0,p-1);
+}
+double *** PostPredSample=calloc(n,sizeof(double **));
+for (i=0;i<n;i++){
+PostPredSample[i]=calloc(nbrsample,sizeof(double *));
+for (int ti=0;ti<nbrsample;ti++){
+  PostPredSample[i][ti]=calloc(q,sizeof(double ));
+}
 }
 _Bool** gampath=bmatrix(0,q-1,0,K-1);
 double ** gamMean=dmatrix(0,q-1,0,K-1);
@@ -100,9 +110,18 @@ double al=al1[0];
 //double al=8;
 double *lambda2S=malloc(q*sizeof(double));
 //printf("ALLLL is %lf",al);
-mainMCMC(0,y,yinit,burninsample, nbrsample,n, p,q,K,path,gampath,gamMean, outc,X,al, bl,lambda2S,ab, bb1, alpha0, beta0,BetaSample);
+mainMCMC(0,y,yinit,burninsample, nbrsample,n, p,q,K,path,gampath,gamMean, outc,X,al, bl,
+         lambda2S,ab, bb1, alpha0, beta0,BetaSample,PostPredSample,logpost);
 int kk=0;int ti;
-int bb=0;
+int bb=0;int bb3=0;
+for (i=0;i<n;i++){
+  for (l=0;l<q;l++){
+    for (ti=0;ti<nbrsample;ti++){
+      PostPredSample1[bb3++]=PostPredSample[i][ti][l];
+    }
+  }
+}
+
 for (l=0;l<q;l++){
 for (ti=0;ti<nbrsample;ti++)
 for (j=0;j<p;j++)
@@ -121,6 +140,7 @@ double  time_taken = ((double)t)/CLOCKS_PER_SEC; // in seconds
 free_bmatrix(path,0,K-1,0,p-1);
 free_dmatrix(X,0,n-1,0,p-1);
 free_dmatrix(outc,0,n-1,0,q-1);
+
 free_dmatrix(gamMean,0,q-1,0,K-1);
 free_bmatrix(gampath,0,q-1,0,K-1);
 free_dmatrix(y,0,q-1,0,n-1);
@@ -130,6 +150,9 @@ free(lambda2S);
 for (l=0;l<q;l++){
 free_dmatrix(BetaSample[l],0,nbrsample-1,0,p-1);
 }
-free(BetaSample);
+for (i=0;i<n;i++){
+free_dmatrix(PostPredSample[i],0,nbrsample-1,0,q-1);
+}
+free(BetaSample);free(PostPredSample);
 }
 

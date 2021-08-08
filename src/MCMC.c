@@ -21,7 +21,7 @@
 void mainMCMC(_Bool update_lambda,double ** y,double ** yinit,int burninsample, int nbrsample,int n, int p,int NbrOutc, 
               int K,_Bool ** path,_Bool** gampath,double ** gamMean, double **outc, double ** X,double al, 
               double *bl,double *lambda2S,double ab, double bb, double alpha0, double beta0, 
-              double *** BetaSample){
+              double *** BetaSample,double ***PostPredSample,  double *logpost){
 int l,k,t,j;
 long seed1=1;
 
@@ -94,13 +94,12 @@ y[l][i]=yinit[l][i];
 int N=burninsample+nbrsample;
 int acceptRate=0;
 for (t=0;t<N;t++){
+logposterior(n,p,K, NbrOutc,njg,y, outc,s2, beta,beta0l,X, Tau,lambda2,gampath,q,ab, bb,al, bl,alpha0, beta0,sigma20,&logpost[t]);
 for (l=0;l<NbrOutc;l++){
 q[l]=geneBeta(r,K,gampath[l],ab,bb);
 Beta0(r,n,p,&beta0l[l], s2[l],sigma20,beta[l],y[l],X,t);
-//printf("Beta000=%.2lf ",beta0l[l]);
 geneTau(r,p,K, njg[l], Tau[l], beta[l],s2[l],lambda2[l]);
 gampat1(n,p, K, y[l],X,r,path,njg[l], gampath[l], Tau[l],  beta[l], alpha0,  beta0,q[l],s2[l]);
-//s2[l]=0.01;
 s2[l]=sigma2(r,n,p,njg[l],Tau[l], beta[l],X,y[l], alpha0, beta0,t);
 lambda2[l]=geneLambda(r, p, njg[l], Tau[l], al, bl[l]);
 }
@@ -108,6 +107,15 @@ alphaStar(r,n,p, NbrOutc,y, outc,s2, beta,beta0l,X,&acceptRate,t);
 
 
 if (t>=burninsample){
+  for (i=0;i<n;i++){
+    double Y[NbrOutc];
+    for (l=0;l<NbrOutc;l++) Y[l]=exp(y[l][i]);
+gsl_ran_dirichlet(r, NbrOutc, Y,PostPredSample[i][t-burninsample]);
+/*if ((t-burninsample==1689) && (i==0)){
+  for (l=0;l<NbrOutc;l++)
+  printf("%lf",PostPredSample[i][t-burninsample][l]);
+}*/
+  }
 for (l=0;l<NbrOutc;l++){
 lambda2S[l]+=lambda2[l]/nbrsample;
 }

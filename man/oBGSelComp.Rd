@@ -33,7 +33,7 @@ burnin=1000,hyperprob=c(1,1),hypersig=c(5,0.01),hyperlamb=c(5,2), seed=1)
 }
 
 \references{
- Thierry Chekouo et al (2020), \emph{A Bayesian Group Selection approach for the analysis of volumetric images of brain cancers and their genomic determinants}, \emph{submitted}.
+ Thierry Chekouo et al (2021), \emph{A Bayesian group selection with compositional responses for analysis of radiologic tumor proportions and their genomic determinants}, \emph{submitted}.
 }
 
 \seealso{

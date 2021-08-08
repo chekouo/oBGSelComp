@@ -12,7 +12,56 @@
 #include <gsl/gsl_sf_gamma.h>
 #include <gsl/gsl_sf_psi.h>
 #include "header.h"
-//Generate regression coefficients
+
+/* Compute logposterior*/
+
+void logposterior(int n,int p,int K, int NbrOut,int ** njg,double ** alphaS, double ** outc,double * s2, double ** beta,
+             double *beta0l,double ** X, double *** Tau,double *lambda2,_Bool** gampath,double * q,
+             double ab, double bb,double al, double *bl,double alpha0, double beta0,double sigma20,double *logpost){
+  double logp=0;
+  for (int i=0;i<n;i++){
+    double AlphaI[NbrOut]; 
+    for (int l=0;l<NbrOut;l++){
+      AlphaI[l]=exp(alphaS[l][i]);
+    }
+    logp+=gsl_ran_dirichlet_lnpdf(NbrOut, AlphaI,outc[i]);
+    for (int l=0;l<NbrOut;l++){
+      double mu=0;
+     for (int j=0;j<p;j++){
+        if (njg[l][j]>0)
+        mu+=X[i][j]*beta[l][j];
+      }
+      mu+=beta0l[l];
+      logp+=log(gsl_ran_gaussian_pdf (alphaS[l][i]-mu,sqrt(s2[l])));
+    }
+  }
+  /*
+  for (int l=0;l<NbrOut;l++){
+    for (int j=0;j<p;j++){
+      if  (njg[l][j]>0){
+        //Prior for beta[l,j]
+        logp+=log(gsl_ran_gaussian_pdf (beta[l][j],sqrt(s2[l]*Tau[l][j][1]))); 
+        //Prior for Tau2
+        logp+=log(lambda2[l]/2)-Tau[l][j][1]*lambda2[l]/2;
+      }
+    }
+    //Prior for gam_l
+    for (int k=0;k<K;k++){
+    logp+=gampath[l][k]*log(q[l])+(1-gampath[l][k])*log(1-q[l]);
+    }
+    
+    //Prior for p_l (or q_l)
+    logp+=log(gsl_ran_beta_pdf(q[l], ab, bb));
+    //Prior for lambda2_l
+    logp+=log(gsl_ran_gamma_pdf(lambda2[l], al, 1/bl[l]));
+    //Prior for sigma2_l
+    logp+=-log(pow(s2[l],2))+log(gsl_ran_gamma_pdf(1/s2[l], alpha0, 1/beta0));
+    //Prior for beta0_l
+    logp+=log(gsl_ran_gaussian_pdf (beta0l[l],sqrt(sigma20)));
+  }
+   */
+    *logpost=logp;
+}
 
 /*Generate q*/
 double geneBeta(gsl_rng * r,int K,_Bool * gampath,double ab, double bb){
@@ -610,7 +659,8 @@ alphaS[l][i]=alphaS[l][i]-beta0l[l];
 void alphaStar(gsl_rng * r,int n,int p, int NbrOut,double ** alphaS, double ** outc,double * s2, double ** beta,double *beta0l,double ** X,int *acceptRate,int sample){
 int i,l,j;
 
-double sig0=0.1;
+//double sig0=0.1;
+double sig0=0.4;
 for (i=0;i<n;i++){
 //double sumalp=0;
 double AlphaI[NbrOut],AlphaINew[NbrOut];

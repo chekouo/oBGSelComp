@@ -9,7 +9,14 @@ typedef struct
 } GSLMatVect;
 
 
-void mainMCMCFunction(int* q1, int* K1,int *n1,int* p1,double * outc1,double * yinit1,double * X1,int * path1,int* burninsample1,int* nbrsample1,double* a, double* b, double* alpha01, double* beta01,double * al1, double* bll,int * seed1, double * gamMean1,double * BetaSample1);
+void mainMCMCFunction(int* q1, int* K1,int *n1,int* p1,double * outc1,double * yinit1,double * X1,
+                      int * path1,int* burninsample1,
+                      int* nbrsample1,double* a, double* b, double* alpha01, 
+                      double* beta01,double * al1, double* bll,int * seed1, 
+                      double * gamMean1,double * BetaSample1, double *PostPredSample1,double * logpost);
+void logposterior(int n,int p,int K, int NbrOut,int ** njg,double ** alphaS, double ** outc,double * s2, double ** beta,
+             double *beta0l,double ** X, double *** Tau,double *lambda2,_Bool** gampath,double * q,
+             double ab, double bb,double al, double *bl,double alpha0, double beta0,double sigma20,double *logpost);
 double geneBeta(gsl_rng * r,int K,_Bool * gampath,double ab, double bb);
 double gigrnd(gsl_rng * rr,double P, double a, double b);
 double InvDigamma(double y);
@@ -55,7 +62,7 @@ void Effects(int n, int p, int K, double * y,double ** X, gsl_rng * r,_Bool ** p
 void generatedata(gsl_rng * r,int n, int p,int K,_Bool ** path,_Bool * gampath, double *y, double ** X, int propOverl);
 void mainMCMC(_Bool update_lambda,double ** y,double ** alphaInit,int burninsample, int nbrsample,int n, int p,int NbrOutc, int K,_Bool ** path,
               _Bool** gampath,double ** gamMean, double **outc, double ** X,double al, double *bl,double *lambda2S,double ab, double bb, 
-              double alpha0, double beta0,double *** BetaSample);
+              double alpha0, double beta0,double *** BetaSample,double ***PostPredSample,double * logpost);
 void GenerateDirichlet(double **alphaSta,double ** outcom, int q, gsl_rng * r,int n, int p,int K,_Bool ** path,_Bool ** gampath, double ** X, int propOverl,double rr);
 void readBoolArray(char *filename, int nRows, int nCols, _Bool ** data );
 void readDoubleArray(char *filename, int nRows, int nCols, double ** data );
