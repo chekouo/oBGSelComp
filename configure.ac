@@ -1,5 +1,5 @@
 
-AC_INIT([BIPnet], 0.1.0)
+AC_INIT([oBGSelComp], 0.1.0)
 
 ## Use gsl-config to find arguments for compiler and linker flags
 ##
