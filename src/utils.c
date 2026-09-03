@@ -16,6 +16,11 @@
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_sf_psi.h>
 #include "header.h"
+double safe_exp(double x){
+  if (x > 700.0) return exp(700.0);
+  if (x < -700.0) return exp(-700.0);
+  return exp(x);
+}
 double Truncate(double mu,double sd, double lower, const gsl_rng * r){
 double lowern=(lower-mu)/sd;
 double alphaopt=(lowern+sqrt(pow(lowern,2)+4))/2;
