@@ -109,7 +109,7 @@ alphaStar(r,n,p, NbrOutc,y, outc,s2, beta,beta0l,X,&acceptRate,t);
 if (t>=burninsample){
   for (i=0;i<n;i++){
     double Y[NbrOutc];
-    for (l=0;l<NbrOutc;l++) Y[l]=exp(y[l][i]);
+    for (l=0;l<NbrOutc;l++) Y[l]=safe_exp(y[l][i]);
 gsl_ran_dirichlet(r, NbrOutc, Y,PostPredSample[i][t-burninsample]);
 /*if ((t-burninsample==1689) && (i==0)){
   for (l=0;l<NbrOutc;l++)
