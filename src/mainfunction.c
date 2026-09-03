@@ -12,6 +12,10 @@
 #include <gsl/gsl_sf_gamma.h>
 #include <gsl/gsl_sf_psi.h>
 #include "header.h"
+ /* Computing the log-density analytically avoids that underflow. */
+static inline double log_gaussian_pdf(double x, double sigma){
+  return -0.5*log(2*PI) - log(sigma) - 0.5*(x*x)/(sigma*sigma);
+}
 
 /* Compute logposterior*/
 
@@ -32,7 +36,7 @@ void logposterior(int n,int p,int K, int NbrOut,int ** njg,double ** alphaS, dou
         mu+=X[i][j]*beta[l][j];
       }
       mu+=beta0l[l];
-      logp+=log(gsl_ran_gaussian_pdf (alphaS[l][i]-mu,sqrt(s2[l])));
+      logp+=log_gaussian_pdf(alphaS[l][i]-mu,sqrt(s2[l])));
     }
   }
   /*
