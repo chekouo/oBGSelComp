@@ -36,7 +36,7 @@ void logposterior(int n,int p,int K, int NbrOut,int ** njg,double ** alphaS, dou
         mu+=X[i][j]*beta[l][j];
       }
       mu+=beta0l[l];
-      logp+=log_gaussian_pdf(alphaS[l][i]-mu,sqrt(s2[l])));
+      logp+=log_gaussian_pdf(alphaS[l][i]-mu,sqrt(s2[l]));
     }
   }
   /*
