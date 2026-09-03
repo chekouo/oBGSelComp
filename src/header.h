@@ -70,3 +70,4 @@ void save1d(char *filename,int n,double *data);
 void Beta0(gsl_rng *r,int n,int p,double *betao, double s2,double sigma20,double * beta,double *y,double ** X,int t);
 gsl_vector *dirichlet_mle(gsl_matrix *D);
 double _ipsi(double y);
+double safe_exp(double x);
