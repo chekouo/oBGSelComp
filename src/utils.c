@@ -208,9 +208,33 @@ x[i]=(x[i]-mean1)/sqrt(var1);
 }
 
 
-
-
 double inverseGaussian(gsl_rng * r, double mu, double lambda) {
+/* geneTau() can call this with mu = sqrt(lambda2*s2)/|beta[j]|, which
+ * degenerates towards 0 when lambda2*s2 underflows relative to
+ * |beta[j]|. With mu==0 the line below evaluates mu/(mu+x) as 0/0
+ * (NaN), and the caller's existing NaN check then falls back to
+ * 1/mu+1/lambda, which is +Inf rather than a usable value. Guard the
+ * degenerate/non-finite cases here so a finite, sane draw is always
+ * returned instead of NaN/Inf propagating into Tau, beta and the
+ * Cholesky decompositions downstream. */
+if (!isfinite(mu) || !isfinite(lambda) || mu<=0.0 || lambda<=0.0){
+        return isfinite(mu) && mu>0.0 ? mu : 1e-8;
+}
+double v=gsl_ran_gaussian (r, 1);  // sample from a normal distribution with a mean of 0 and 1 standard deviation
+        double y = v*v;
+        double x = mu + (mu*mu*y)/(2*lambda) - (mu/(2*lambda)) * sqrt(4*mu*lambda*y + mu*mu*y*y);
+if (!isfinite(x) || x<=0.0){
+        return mu; /* avoid dividing by a ~0 or non-finite x below */
+}
+double test=gsl_ran_flat (r, 0, 1);    // sample from a uniform distribution between 0 and 1
+        if (test <= (mu)/(mu + x))
+               return x;
+        else
+               return (mu*mu)/x;
+}
+
+
+/*double inverseGaussian(gsl_rng * r, double mu, double lambda) {
 double v=gsl_ran_gaussian (r, 1);  // sample from a normal distribution with a mean of 0 and 1 standard deviation
         double y = v*v;
         double x = mu + (mu*mu*y)/(2*lambda) - (mu/(2*lambda)) * sqrt(4*mu*lambda*y + mu*mu*y*y);
@@ -220,7 +244,7 @@ double test=gsl_ran_flat (r, 0, 1);    // sample from a uniform distribution bet
         else
                return (mu*mu)/x;
 }
-
+*/
 
 
 double mean(int n,double * x){
