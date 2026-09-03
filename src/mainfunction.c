@@ -549,7 +549,7 @@ double logsum=0;
 double sumealpha=0;
 for (i=0;i<N;i++){
 logsum+=exp(alpha[i]-maxalpha);
-sumealpha+=exp(alpha[i]);
+sumealpha+=safe_exp(alpha[i]);
 }
 logsum+=exp(log(g-1+0.5)-maxalpha);
 logsum=(sumealpha-1+0.5)*(maxalpha+log(logsum));
@@ -686,7 +686,7 @@ double logalphaold=alphaS[l][i];
 double logalphanew=logalphaold+sig0*gsl_ran_ugaussian(r);
 
 
-double alphan=exp(logalphanew);
+double alphan=safe_exp(logalphanew);
 AlphaINew[l]=logalphanew;
 //if (l==0){
 //if (sample>18200){
@@ -698,7 +698,7 @@ AlphaINew[l]=logalphanew;
 //double logpostnew= gsl_sf_lngamma (sumalpn)-gsl_sf_lngamma (alphan)+(alphan-1)*log(outc[i][l])-0.5*log(s2[l])-0.5*pow(logalphanew-mu,2)/s2[l];
 //double accept=gsl_sf_lngamma (sumalpn)-gsl_sf_lngamma (sumalp)-gsl_sf_lngamma (alphan)+gsl_sf_lngamma (exp(logalphaold))+(alphan-exp(logalphaold))*log(outc[i][l])-0.5*pow(logalphanew-mu,2)/s2[l]+0.5*pow(logalphaold-mu,2)/s2[l];
 //printf("Accept1= %lf\n ",accept);
-double accept=logGamma(NbrOut,AlphaINew)-logGamma(NbrOut,AlphaI)-logGamma(1,&logalphanew)+logGamma(1,&logalphaold)+(alphan-exp(logalphaold))*log(outc[i][l])-0.5*pow(logalphanew-mu,2)/s2[l]+0.5*pow(logalphaold-mu,2)/s2[l];
+double accept=logGamma(NbrOut,AlphaINew)-logGamma(NbrOut,AlphaI)-logGamma(1,&logalphanew)+logGamma(1,&logalphaold)+(alphan-safe_exp(logalphaold))*log(outc[i][l])-0.5*pow(logalphanew-mu,2)/s2[l]+0.5*pow(logalphaold-mu,2)/s2[l];
 //printf("Accept2= %lf\n ",accept);
 
 //printf("%lf ",accept);
