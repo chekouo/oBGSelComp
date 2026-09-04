@@ -661,7 +661,7 @@ alphaS[l][i]=alphaS[l][i]-beta0l[l];
 }
 
 
-void alphaStar(gsl_rng * r,int n,int p, int NbrOut,double ** alphaS, double ** outc,double * s2, double ** beta,double *beta0l,double ** X,int *acceptRate,int sample){
+void alphaStar(gsl_rng * r,int n,int p, int NbrOut,double ** alphaS, double ** outc,double * s2, double ** beta,double *beta0l,double ** X,double *acceptRate,int sample){
 int i,l,j;
 
 //double sig0=0.1;
