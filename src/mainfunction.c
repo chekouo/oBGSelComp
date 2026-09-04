@@ -508,6 +508,37 @@ Ainv[i*k+j]=Ainv[j*k+i]=a;
 return Ainv;
 }
 
+void ActiveIdx(int p, _Bool * path, int * njg, int * IDX, int * np){
+int j;
+_Bool *path1=malloc(p*sizeof(_Bool));
+for (j=0;j<p;j++){
+path1[j]=path[j];
+if (njg[j]==0) path1[j]=0;
+}
+findc(p,path1,0,IDX, np);
+free(path1);
+}
+
+
+double * AinbetaX(int k,int n,int * njg,double ** tau,double **X,int * IDX){
+double *Ainv=malloc(k*k*sizeof(double));
+int i,j,l;
+for (i=0;i<k;i++){
+int ii=IDX[i];
+for (j=0;j<=i;j++){
+int jj=IDX[j];
+double a=0;
+for (l=0;l<n;l++)
+a+=X[l][ii]*X[l][jj];
+if (i==j){
+a+=(1.0/tau[ii][1]);
+}
+Ainv[i*k+j]=Ainv[j*k+i]=a;
+}
+}
+return Ainv;
+}
+
 double **PGG(int n, int p,_Bool * path,double **X,int *njg, int *IDX, int *np){
 int i,j;
 _Bool *path1=malloc(p*sizeof(_Bool));
