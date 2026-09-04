@@ -111,7 +111,7 @@ double al=al1[0];
 double *lambda2S=malloc(q*sizeof(double));
 //printf("ALLLL is %lf",al);
 mainMCMC(0,y,yinit,burninsample, nbrsample,n, p,q,K,path,gampath,gamMean, outc,X,al, bl,
-         lambda2S,ab, bb1, alpha0, beta0,BetaSample,PostPredSample,logpost);
+         lambda2S,ab, bb1, alpha0, beta0,BetaSample,PostPredSample,logpost,r);
 int kk=0;int ti;
 int bb=0;int bb3=0;
 for (i=0;i<n;i++){
