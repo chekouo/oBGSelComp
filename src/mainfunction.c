@@ -40,12 +40,12 @@ void logposterior(int n,int p,int K, int NbrOut,int ** njg,double ** alphaS, dou
       logp+=log_gaussian_pdf(alphaS[l][i]-mu,sqrt(s2[l]));
     }
   }
-  /*
+  
   for (int l=0;l<NbrOut;l++){
     for (int j=0;j<p;j++){
       if  (njg[l][j]>0){
         //Prior for beta[l,j]
-        logp+=log(gsl_ran_gaussian_pdf (beta[l][j],sqrt(s2[l]*Tau[l][j][1]))); 
+        logp+=log_gaussian_pdf(beta[l][j],sqrt(s2[l]*Tau[l][j][1])); 
         //Prior for Tau2
         logp+=log(lambda2[l]/2)-Tau[l][j][1]*lambda2[l]/2;
       }
@@ -62,9 +62,9 @@ void logposterior(int n,int p,int K, int NbrOut,int ** njg,double ** alphaS, dou
     //Prior for sigma2_l
     logp+=-log(pow(s2[l],2))+log(gsl_ran_gamma_pdf(1/s2[l], alpha0, 1/beta0));
     //Prior for beta0_l
-    logp+=log(gsl_ran_gaussian_pdf (beta0l[l],sqrt(sigma20)));
+    logp+=log_gaussian_pdf(beta0l[l],sqrt(sigma20));
   }
-   */
+   
     *logpost=logp;
 }
 
