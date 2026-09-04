@@ -24,7 +24,7 @@ double Truncate(double mu,double sd, double lower, const gsl_rng * r);
 void VectorCentered(int nR,double * x);
 void OutcomeInpute(double ** outc,int n,int NbrOutc);
 double max(int n, double * x);
-void alphaStar(gsl_rng * r,int n,int p, int NbrOut,double ** alphaS, double ** outc,double * s2, double ** beta,double *beta0l,double **X,int *acceptRate,int sample);
+void alphaStar(gsl_rng * r,int n,int p, int NbrOut,double ** alphaS, double ** outc,double * s2, double ** beta,double *beta0l,double **X,double *acceptRate,int sample);
 void alphaStar2(gsl_rng * r,int n,int p, int NbrOut,double ** alphaS, double ** outc,double * s2, double ** beta,double *beta0l,double ** X,int *acceptRate,int sample);
 void alphaStar1(gsl_rng * r,int n,int p, int NbrOut,double ** alphaS, double ** outc,double * s2, double ** beta,double *beta0l,double ** X,int *acceptRate,int sample);
 void save2db(char *filename,int n,int p,_Bool ** data);
