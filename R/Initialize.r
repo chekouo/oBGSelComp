@@ -1,4 +1,4 @@
-OutcomeInit=function(outcome=outcome,X=X){
+OutcomeInit=function(outcome=outcome){
 set.seed(1)
 #library(sirt);
 #library(glmnet);
