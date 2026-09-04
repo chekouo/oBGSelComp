@@ -14,6 +14,7 @@
 #include "header.h"
  /* Computing the log-density analytically avoids that underflow. */
 static inline double log_gaussian_pdf(double x, double sigma){
+  if (!isfinite(sigma) || sigma<=0.0) sigma=1e-150; /* defensive floor: keeps this finite even if s2[l] ever underflowed to 0 upstream */
   return -0.5*log(2*PI) - log(sigma) - 0.5*(x*x)/(sigma*sigma);
 }
 
@@ -26,7 +27,7 @@ void logposterior(int n,int p,int K, int NbrOut,int ** njg,double ** alphaS, dou
   for (int i=0;i<n;i++){
     double AlphaI[NbrOut]; 
     for (int l=0;l<NbrOut;l++){
-      AlphaI[l]=exp(alphaS[l][i]);
+      AlphaI[l]=safe_exp(alphaS[l][i]);
     }
     logp+=gsl_ran_dirichlet_lnpdf(NbrOut, AlphaI,outc[i]);
     for (int l=0;l<NbrOut;l++){
