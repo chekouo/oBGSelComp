@@ -7,7 +7,7 @@ p=ncol(X);
 outc1=as.vector(t(as.matrix(outcome)));
 X=as.matrix(X);
 outcome=as.matrix(outcome)
-yinit1=as.vector(t(as.matrix(OutcomeInit(outcome=outcome,X=X))));
+yinit1=as.vector(t(as.matrix(OutcomeInit(outcome=outcome))));
 X1=as.vector(t(as.matrix(X)));
 path1=as.vector(t(as.matrix(Pathway)));
 
