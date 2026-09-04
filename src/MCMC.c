@@ -92,7 +92,7 @@ y[l][i]=yinit[l][i];
 
 
 int N=burninsample+nbrsample;
-int acceptRate=0;
+double acceptRate=0;
 for (t=0;t<N;t++){
 logposterior(n,p,K, NbrOutc,njg,y, outc,s2, beta,beta0l,X, Tau,lambda2,gampath,q,ab, bb,al, bl,alpha0, beta0,sigma20,&logpost[t]);
 for (l=0;l<NbrOutc;l++){
