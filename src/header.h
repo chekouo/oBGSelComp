@@ -62,7 +62,7 @@ void Effects(int n, int p, int K, double * y,double ** X, gsl_rng * r,_Bool ** p
 void generatedata(gsl_rng * r,int n, int p,int K,_Bool ** path,_Bool * gampath, double *y, double ** X, int propOverl);
 void mainMCMC(_Bool update_lambda,double ** y,double ** alphaInit,int burninsample, int nbrsample,int n, int p,int NbrOutc, int K,_Bool ** path,
               _Bool** gampath,double ** gamMean, double **outc, double ** X,double al, double *bl,double *lambda2S,double ab, double bb, 
-              double alpha0, double beta0,double *** BetaSample,double ***PostPredSample,double * logpost);
+              double alpha0, double beta0,double *** BetaSample,double ***PostPredSample,double * logpost,const gsl_rng * r);
 void GenerateDirichlet(double **alphaSta,double ** outcom, int q, gsl_rng * r,int n, int p,int K,_Bool ** path,_Bool ** gampath, double ** X, int propOverl,double rr);
 void readBoolArray(char *filename, int nRows, int nCols, _Bool ** data );
 void readDoubleArray(char *filename, int nRows, int nCols, double ** data );
