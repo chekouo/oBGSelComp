@@ -177,8 +177,10 @@ GSLMatVect LMu;
 double logdet=0;
 double logRR=0;
 double XyMu=0;
-double ** PG=PGG(n,p,path,X,njg, IDX,np);
-double * Ainv= Ainbeta(*np,n,njg,Tau,PG,IDX);
+//double ** PG=PGG(n,p,path,X,njg, IDX,np);
+//double * Ainv= Ainbeta(*np,n,njg,Tau,PG,IDX);
+ ActiveIdx(p,path,njg,IDX,np);
+double * Ainv= AinbetaX(*np,n,njg,Tau,X,IDX);
 //gsl_matrix * L;gsl_vector *Mu;
 if (*np>0){
 /*
@@ -234,7 +236,7 @@ logRR+=Yk[i]*Yk[i];
 }
 logRR=-0.5*logdet-((n+2*alpha0)/2.0)*log(0.5*(logRR-XyMu)+beta0);;
 *logmarg=logRR;
-free(Ainv);free_dmatrix(PG,0,n-1,0,*np-1);
+free(Ainv);
 //gsl_matrix_memcpy (LMu.Mat, L);gsl_vector_memcpy (LMu.Vec, Mu);
 return LMu;
 }
