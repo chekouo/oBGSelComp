@@ -71,3 +71,5 @@ void Beta0(gsl_rng *r,int n,int p,double *betao, double s2,double sigma20,double
 gsl_vector *dirichlet_mle(gsl_matrix *D);
 double _ipsi(double y);
 double safe_exp(double x);
+void ActiveIdx(int p, _Bool * path, int * njg, int * IDX, int * np);
+double * AinbetaX(int k,int n,int * njg,double ** tau,double **X,int * IDX);
