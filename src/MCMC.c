@@ -21,9 +21,9 @@
 void mainMCMC(_Bool update_lambda,double ** y,double ** yinit,int burninsample, int nbrsample,int n, int p,int NbrOutc, 
               int K,_Bool ** path,_Bool** gampath,double ** gamMean, double **outc, double ** X,double al, 
               double *bl,double *lambda2S,double ab, double bb, double alpha0, double beta0, 
-              double *** BetaSample,double ***PostPredSample,  double *logpost){
+              double *** BetaSample,double ***PostPredSample,  double *logpost,const gsl_rng * r){
 int l,k,t,j;
-long seed1=1;
+//long seed1=1;
 
 //_Bool** gampath=bmatrix(0,NbrOutc-1,0,K-1);
 double *s2=malloc(NbrOutc*sizeof(double));
@@ -34,8 +34,8 @@ double *lambda2=malloc(NbrOutc*sizeof(double));
 //alpha0=4.0;
 //beta0=0.01;
 
-gsl_rng * r = gsl_rng_alloc (gsl_rng_rand48);
-gsl_rng_set (r, seed1);
+//gsl_rng * r = gsl_rng_alloc (gsl_rng_rand48);
+//gsl_rng_set (r, seed1);
 
 double q0=0.2;
 //double ab=2;double bb=20;
