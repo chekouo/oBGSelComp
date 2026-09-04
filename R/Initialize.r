@@ -16,9 +16,11 @@ alphaS=matrix(0,nr,q)
 for (i in 1:nr){
   y1=ynew[i,];
 ### We duplicate some data
-modd=c(0,0.001,0.01,0.05);vv=matrix(runif(q*length(modd)),q)*modd;
+## modd=c(0,0.001,0.01,0.05);
+  modd<-seq(0,1,length.out = q)
+  vv=matrix(runif(q*length(modd)),q)*modd;
  yy=rbind(yno[i,],(y1+vv)/(1+apply(vv,2,sum)))
-  yi=matrix(y[i,],30,4,byrow = T)
+  yi=matrix(y[i,],30,q,byrow = T)
   yy=rbind(yi,yy)
   alphaS[i,]=log(dirichlet.mle(yy,maxit=10000)$alpha);
 }
